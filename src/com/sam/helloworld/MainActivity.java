@@ -2,6 +2,9 @@ package com.sam.helloworld;
 
 import java.util.List;
 
+import com.sam.dataAccess.DataAccess;
+import com.sam.model.Person;
+
 import Business.Friend;
 import android.os.Bundle;
 import android.app.Activity;
@@ -14,6 +17,8 @@ import android.widget.TextView;
 public class MainActivity extends Activity {
 
 	public final static String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
+	DataAccess db;
+	
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +30,17 @@ public class MainActivity extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
+    	db = new DataAccess(getApplicationContext());
+    	
+    	Person person = new Person("Sam");
+    	person.setId(12345);
+    	
+    	long personId = db.createPerson(person);
+   
+    	Person p = db.getPerson(personId);
+    	
+    	db.closeDB();
+    	
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
